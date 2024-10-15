@@ -1,9 +1,9 @@
 import requests
 import os
 import time
-from dotenv import load_dotenv
 import logging
 import sys
+from dotenv import load_dotenv
 
 from hamming_workflow.utils import get_experiment_url
 from hamming_workflow.types import ExperimentStatus, ExperimentResult
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     if AGENT_ID is None:
         raise ValueError("AGENT_ID is not set")
 
-    experiment_id = sys.stdin.read().strip()
+    experiment_id = sys.argv[1]
 
     url = get_experiment_url(AGENT_ID, experiment_id)
     logging.info(

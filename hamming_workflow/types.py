@@ -5,8 +5,6 @@ from pydantic import BaseModel
 
 class Score(BaseModel):
     value: float
-    reason: Optional[str] = None
-
 
 class Call(BaseModel):
     id: str

@@ -40,16 +40,14 @@ jobs:
           AGENT_ID: ${{ inputs.agent_id }}
           DATASET_ID: ${{ inputs.dataset_id }}
           TO_NUMBER: ${{ inputs.to_number }}
-        run: python hamming_run_agent.py
+        run: | 
+          output=$(python hamming_run_agent.py)
+          echo "experiment_id=$output" >> $GITHUB_OUTPUT
 
       - name: Wait for experiment to complete
         id: wait_for_experiment
-        run: python hamming_wait_voice_experiment.py < ${{ steps.run_agent.outputs }}
-
-      - name: Check scores
-        id: check_scores
-        run: python hamming_check_scores.py < ${{ steps.wait_for_experiment.outputs }}
-
-      - name: Output experiment ID
+        env:
+          HAMMING_API_KEY: ${{ secrets.HAMMING_API_KEY }}
+          AGENT_ID: ${{ inputs.agent_id }}
         run: |
-          echo "Experiment ID: ${{ steps.run_agent.outputs }}"
+          python hamming_wait_voice_experiment.py ${{ steps.run_agent.outputs.experiment_id }} | python hamming_check_scores.py
