@@ -12,7 +12,7 @@ HAMMING_API_KEY = os.environ["HAMMING_API_KEY"]
 
 AGENT_ID = os.environ["AGENT_ID"]
 DATASET_ID = os.environ["DATASET_ID"]
-TO_NUMBERS = os.environ["TO_NUMBERS"]
+TO_NUMBERS = os.environ.get("TO_NUMBERS", os.environ.get("TO_NUMBER"))
 
 
 def run_agent(agent_id: str, dataset_id: str) -> str:
@@ -50,6 +50,6 @@ if __name__ == "__main__":
     if DATASET_ID is None:
         raise ValueError("DATASET_ID is not set")
     if TO_NUMBERS is None:
-        raise ValueError("TO_NUMBERS is not set")
+        raise ValueError("Neither TO_NUMBERS nor TO_NUMBER is set")
     experiment_id = run_agent(AGENT_ID, DATASET_ID)
     print(experiment_id)
