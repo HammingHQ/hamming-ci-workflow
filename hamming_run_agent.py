@@ -12,7 +12,7 @@ HAMMING_API_KEY = os.environ["HAMMING_API_KEY"]
 
 AGENT_ID = os.environ["AGENT_ID"]
 DATASET_ID = os.environ["DATASET_ID"]
-TO_NUMBER = os.environ["TO_NUMBER"]
+TO_NUMBERS = os.environ["TO_NUMBERS"]
 
 
 def run_agent(agent_id: str, dataset_id: str) -> str:
@@ -21,7 +21,10 @@ def run_agent(agent_id: str, dataset_id: str) -> str:
         "Content-Type": "application/json",
         "Authorization": f"Bearer {HAMMING_API_KEY}",
     }
-    data = {"dataset_id": dataset_id, "to_number": TO_NUMBER}
+    
+    to_number = TO_NUMBERS.split(",") if "," in TO_NUMBERS else TO_NUMBERS
+    
+    data = {"dataset_id": dataset_id, "to_number": to_number}
 
     response = requests.post(url, json=data, headers=headers)
     response.raise_for_status()
@@ -46,7 +49,7 @@ if __name__ == "__main__":
         raise ValueError("AGENT_ID is not set")
     if DATASET_ID is None:
         raise ValueError("DATASET_ID is not set")
-    if TO_NUMBER is None:
-        raise ValueError("TO_NUMBER is not set")
+    if TO_NUMBERS is None:
+        raise ValueError("TO_NUMBERS is not set")
     experiment_id = run_agent(AGENT_ID, DATASET_ID)
     print(experiment_id)
