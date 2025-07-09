@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 HAMMING_API_KEY = os.environ["HAMMING_API_KEY"]
 AGENT_ID = os.environ["AGENT_ID"]
-TIMEOUT_SECONDS = int(os.environ.get("TIMEOUT_SECONDS", 600))
+TIMEOUT_SECONDS = int(os.environ.get("TIMEOUT_SECONDS", 1500))
 
 
 def wait_for_experiment(experiment_id: str) -> str:
